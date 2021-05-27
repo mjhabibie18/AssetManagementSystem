@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace assetManagement.Models
+namespace AssetManagement.Models
 {
     [Table("TB_T_Condition")]
     public class Condition
