@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace AssetManagement.Models
 {
     [Table("TB_T_Transaction")]
-    public class Transaction
+    public class Transactions
     {
         [Key]
         public int Id { get; set; }

@@ -1,6 +1,7 @@
 ﻿using AssetManagement.Base;
 using AssetManagement.Models;
 using AssetManagement.Repositories.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,7 @@ namespace AssetManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ConditionItemController : BaseController<ConditionItem, ConditionItemRepository, int>
     {
         private ConditionItemRepository conditionitemRepository;
