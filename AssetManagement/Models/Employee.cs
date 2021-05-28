@@ -18,6 +18,6 @@ namespace AssetManagement.Models
         public Account Account { get; set; }
         public Role Role { get; set; }
         public Department Department { get; set; }
-        public ICollection<Transaction> Transactions { get; set; }
+        public ICollection<Transactions> Transactions { get; set; }
     }
 }
