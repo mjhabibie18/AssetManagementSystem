@@ -1,5 +1,7 @@
 ﻿using AssetManagement.Base;
+using AssetManagement.Models;
 using AssetManagement.Repositories.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,7 +14,8 @@ namespace AssetManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TransactionController : BaseController<Transaction, TransactionRepository, int>
+    [Authorize]
+    public class TransactionController : BaseController<Transactions, TransactionRepository, int>
     {
         private TransactionRepository transactionRepository;
         public TransactionController(TransactionRepository transactionRepository) : base(transactionRepository)
