@@ -24,7 +24,7 @@ namespace AssetManagement.Context
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Transaction> Transactionss { get; set; }
+        public DbSet<Transactions> Transactionss { get; set; }
         public DbSet<TransactionItem> TransactionItems { get; set; }
         public DbSet<Parameter> Parameters { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -50,15 +50,15 @@ namespace AssetManagement.Context
 
             //Empolyee-Transaction
             //one to Many
-            modelBuilder.Entity<Transaction>()
-                .HasOne(Transaction => Transaction.Employee)
+            modelBuilder.Entity<Transactions>()
+                .HasOne(Transactions => Transactions.Employee)
                 .WithMany(Employee => Employee.Transactions);
 
             //Transaction -TransactionItem
             //one to Many
             modelBuilder.Entity<TransactionItem>()
-                .HasOne(TransactionItem => TransactionItem.Transaction)
-                .WithMany(Transaction => Transaction.TransactionItems);
+                .HasOne(TransactionItem => TransactionItem.Transactions)
+                .WithMany(Transactions => Transactions.TransactionItems);
 
             //transactionItem-item
             //one to many
