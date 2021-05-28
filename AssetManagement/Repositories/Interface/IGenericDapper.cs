@@ -6,7 +6,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace assetManagement.Repositories.Interface
+namespace AssetManagement.Repositories.Interface
 {
     public interface IGenericDapper : IDisposable
     {
