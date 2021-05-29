@@ -13,7 +13,7 @@ namespace AssetManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ConditionController : BaseController<Condition, ConditionRepository, int>
     {
         private ConditionRepository conditionRepository;
