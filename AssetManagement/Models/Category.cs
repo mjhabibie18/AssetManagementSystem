@@ -14,5 +14,6 @@ namespace AssetManagement.Models
         public int Id { get; set; }
         public string CategoryName { get; set; }
         public ICollection<Item> Items { get; set; }
+        public ICollection<Procurement> Procurements { get; set; }
     }
 }
