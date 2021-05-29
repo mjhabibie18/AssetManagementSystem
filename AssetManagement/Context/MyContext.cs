@@ -27,6 +27,7 @@ namespace AssetManagement.Context
         public DbSet<Transactions> Transactionss { get; set; }
         public DbSet<TransactionItem> TransactionItems { get; set; }
         public DbSet<Parameter> Parameters { get; set; }
+        public DbSet<Procurement> Procurements { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Account-Employee
@@ -87,6 +88,12 @@ namespace AssetManagement.Context
             modelBuilder.Entity<Employee>()
                 .HasIndex(Employee => Employee.Email)
                 .IsUnique();
+
+            //category-procurement
+            //one to many
+            modelBuilder.Entity<Procurement>()
+                .HasOne(Procurement => Procurement.Category)
+                .WithMany(Category => Category.Procurements);
         }
     }
 }
