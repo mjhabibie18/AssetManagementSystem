@@ -31,28 +31,34 @@ namespace AssetManagement.Controllers
 
         [HttpPost("request")]
         public IActionResult RequestItem(RequestAsset assets)
-        { 
-            var dbparams = new DynamicParameters();
-            dbparams.Add("RequestDate", assets.Request, DbType.DateTime);
-            dbparams.Add("ReturnDate", assets.Return, DbType.DateTime);
-            dbparams.Add("Status", assets.Status, DbType.String);
-            dbparams.Add("EmployeeId", assets.EmployeeId, DbType.Int32);
-
-            int transId = dapper.Get<int>("[dbo].[SP_GetTransactionId]", dbparams, CommandType.StoredProcedure);
-
-            string query = string.Empty;
-
-            for(int i = 0; i < assets.items.Count; i++)
+        {
+            try
             {
-                var paramTransItem = new DynamicParameters();
-                paramTransItem.Add("ItemId", assets.items[i].ItemId, DbType.Int32);
-                paramTransItem.Add("TransId", transId, DbType.Int32);
-                //paramTransItem.Add("Qty", assets.items[i].Qty, DbType.Int32);
-                //query += "INSERT INTO TB_T_TransactionItem (ItemId, TransactionsId, Quantity) VALUES (" + assets.items[i].ItemId + ", " + transId + ", " + assets.items[i].Qty + ")";
-                var res = Task.FromResult(dapper.Insert<int>("[dbo].[SP_InsertTransItem]", paramTransItem, CommandType.StoredProcedure));
-            }
+                var dbparams = new DynamicParameters();
+                dbparams.Add("RequestDate", assets.Request, DbType.DateTime);
+                dbparams.Add("ReturnDate", assets.Return, DbType.DateTime);
+                dbparams.Add("Status", assets.Status, DbType.String);
+                dbparams.Add("EmployeeId", assets.EmployeeId, DbType.Int32);
 
-            return Ok(new { Message = "Request successful." });
+                int transId = dapper.Get<int>("[dbo].[SP_GetTransactionId]", dbparams, CommandType.StoredProcedure);
+
+                string query = string.Empty;
+
+                for (int i = 0; i < assets.items.Count; i++)
+                {
+                    var paramTransItem = new DynamicParameters();
+                    paramTransItem.Add("ItemId", assets.items[i].ItemId, DbType.Int32);
+                    paramTransItem.Add("TransId", transId, DbType.Int32);
+                    //paramTransItem.Add("Qty", assets.items[i].Qty, DbType.Int32);
+                    //query += "INSERT INTO TB_T_TransactionItem (ItemId, TransactionsId, Quantity) VALUES (" + assets.items[i].ItemId + ", " + transId + ", " + assets.items[i].Qty + ")";
+                    var res = Task.FromResult(dapper.Insert<int>("[dbo].[SP_InsertTransItem]", paramTransItem, CommandType.StoredProcedure));
+                }
+                return Ok(new { Message = "Request successful." });
+            }
+            catch(Exception e)
+            {
+                return BadRequest("Request not Successfully" + e.Message);
+            } 
         }
     }
 }

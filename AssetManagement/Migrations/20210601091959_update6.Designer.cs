@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AssetManagement.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20210528004113_first")]
-    partial class first
+    [Migration("20210601091959_update6")]
+    partial class update6
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -155,9 +155,6 @@ namespace AssetManagement.Migrations
                     b.Property<string>("Price")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Stock")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -183,6 +180,38 @@ namespace AssetManagement.Migrations
                     b.ToTable("TB_M_Parameter");
                 });
 
+            modelBuilder.Entity("AssetManagement.Models.Procurement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ItemName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Price")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ProcurementDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("StatusProcurement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("TB_T_Procurement");
+                });
+
             modelBuilder.Entity("AssetManagement.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -198,32 +227,6 @@ namespace AssetManagement.Migrations
                     b.ToTable("TB_M_Role");
                 });
 
-            modelBuilder.Entity("AssetManagement.Models.Transaction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Request")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Return")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("TB_T_Transaction");
-                });
-
             modelBuilder.Entity("AssetManagement.Models.TransactionItem", b =>
                 {
                     b.Property<int>("Id")
@@ -234,19 +237,42 @@ namespace AssetManagement.Migrations
                     b.Property<int?>("ItemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TransactionId")
+                    b.Property<int?>("TransactionsId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
 
-                    b.HasIndex("TransactionId");
+                    b.HasIndex("TransactionsId");
 
                     b.ToTable("TB_T_TransactionItem");
+                });
+
+            modelBuilder.Entity("AssetManagement.Models.Transactions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("TB_T_Transaction");
                 });
 
             modelBuilder.Entity("AssetManagement.Models.Account", b =>
@@ -287,11 +313,11 @@ namespace AssetManagement.Migrations
                         .HasForeignKey("CategoryId");
                 });
 
-            modelBuilder.Entity("AssetManagement.Models.Transaction", b =>
+            modelBuilder.Entity("AssetManagement.Models.Procurement", b =>
                 {
-                    b.HasOne("AssetManagement.Models.Employee", "Employee")
-                        .WithMany("Transactions")
-                        .HasForeignKey("EmployeeId");
+                    b.HasOne("AssetManagement.Models.Category", "Category")
+                        .WithMany("Procurements")
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("AssetManagement.Models.TransactionItem", b =>
@@ -300,9 +326,16 @@ namespace AssetManagement.Migrations
                         .WithMany("TransactionItems")
                         .HasForeignKey("ItemId");
 
-                    b.HasOne("AssetManagement.Models.Transaction", "Transaction")
+                    b.HasOne("AssetManagement.Models.Transactions", "Transactions")
                         .WithMany("TransactionItems")
-                        .HasForeignKey("TransactionId");
+                        .HasForeignKey("TransactionsId");
+                });
+
+            modelBuilder.Entity("AssetManagement.Models.Transactions", b =>
+                {
+                    b.HasOne("AssetManagement.Models.Employee", "Employee")
+                        .WithMany("Transactions")
+                        .HasForeignKey("EmployeeId");
                 });
 #pragma warning restore 612, 618
         }

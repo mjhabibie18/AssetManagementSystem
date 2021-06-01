@@ -93,6 +93,7 @@ namespace AssetManagement
             services.AddScoped<RoleRepository>();
             services.AddScoped<TransactionRepository>();
             services.AddScoped<TransactionItemRepository>();
+            services.AddScoped<ProcurementRepository>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
