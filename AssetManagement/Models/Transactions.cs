@@ -12,8 +12,8 @@ namespace AssetManagement.Models
     {
         [Key]
         public int Id { get; set; }
-        public DateTime Request { get; set; }
-        public DateTime Return { get; set; }
+        public DateTime RequestDate { get; set; }
+        public DateTime ReturnDate { get; set; }
         public string Status { get; set; }
         public Employee Employee { get; set; }
         public ICollection<TransactionItem> TransactionItems { get; set; }

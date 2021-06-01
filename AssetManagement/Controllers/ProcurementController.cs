@@ -39,10 +39,10 @@ namespace AssetManagement.Controllers
                 var result = Task.FromResult(_dapper.Insert<int>("[dbo].[SP_ApproveProcurement]", dbparams, CommandType.StoredProcedure));
                 return Ok("Procurement Approve");
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                return BadRequest("Procurement Reject");
+                return BadRequest("Procurement Reject" + e.Message);
             }
         }
 
@@ -62,9 +62,9 @@ namespace AssetManagement.Controllers
                 dbparams.Add("CategoryId", procurement.CategoryId, DbType.Int32);
                 var result = Task.FromResult(_dapper.Insert<int>("[dbo].[SP_InsertProcurement]", dbparams, CommandType.StoredProcedure));
                 return Ok("Data Success Insert");
-            }catch (Exception)
+            }catch (Exception e)
             {
-                return BadRequest("Data Not Success Insert");
+                return BadRequest("Data Not Success Insert" + e.Message);
             }
         }
     }

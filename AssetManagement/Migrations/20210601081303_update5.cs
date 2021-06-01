@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AssetManagement.Migrations
 {
-    public partial class first : Migration
+    public partial class update5 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -81,7 +81,6 @@ namespace AssetManagement.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ItemName = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Stock = table.Column<int>(nullable: false),
                     Price = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: true)
                 },
@@ -90,6 +89,30 @@ namespace AssetManagement.Migrations
                     table.PrimaryKey("PK_TB_M_Item", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TB_M_Item_TB_M_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "TB_M_Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TB_T_Procurement",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemName = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Price = table.Column<string>(nullable: true),
+                    ProcurementDate = table.Column<DateTime>(nullable: false),
+                    StatusProcurement = table.Column<string>(nullable: true),
+                    CategoryId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TB_T_Procurement", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TB_T_Procurement_TB_M_Category_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "TB_M_Category",
                         principalColumn: "Id",
@@ -197,8 +220,7 @@ namespace AssetManagement.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantity = table.Column<int>(nullable: false),
-                    TransactionId = table.Column<int>(nullable: true),
+                    TransactionsId = table.Column<int>(nullable: true),
                     ItemId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -211,8 +233,8 @@ namespace AssetManagement.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TB_T_TransactionItem_TB_T_Transaction_TransactionId",
-                        column: x => x.TransactionId,
+                        name: "FK_TB_T_TransactionItem_TB_T_Transaction_TransactionsId",
+                        column: x => x.TransactionsId,
                         principalTable: "TB_T_Transaction",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -251,6 +273,11 @@ namespace AssetManagement.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TB_T_Procurement_CategoryId",
+                table: "TB_T_Procurement",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TB_T_Transaction_EmployeeId",
                 table: "TB_T_Transaction",
                 column: "EmployeeId");
@@ -261,9 +288,9 @@ namespace AssetManagement.Migrations
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TB_T_TransactionItem_TransactionId",
+                name: "IX_TB_T_TransactionItem_TransactionsId",
                 table: "TB_T_TransactionItem",
-                column: "TransactionId");
+                column: "TransactionsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -276,6 +303,9 @@ namespace AssetManagement.Migrations
 
             migrationBuilder.DropTable(
                 name: "TB_M_Parameter");
+
+            migrationBuilder.DropTable(
+                name: "TB_T_Procurement");
 
             migrationBuilder.DropTable(
                 name: "TB_T_TransactionItem");
