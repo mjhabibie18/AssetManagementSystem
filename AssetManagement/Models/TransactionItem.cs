@@ -12,7 +12,7 @@ namespace AssetManagement.Models
     {
         [Key]
         public int Id { get; set; }
-        public int Quantity { get; set; }
+        //public int Quantity { get; set; }
         public Transactions Transactions { get; set; }
         public Item Item { get; set; }
 
