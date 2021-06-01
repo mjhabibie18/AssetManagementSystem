@@ -13,7 +13,7 @@ namespace AssetManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Manager")]
     public class CategoryController : BaseController<Category, CategoryRepository, int>
     {
         private CategoryRepository categoryRepository;
