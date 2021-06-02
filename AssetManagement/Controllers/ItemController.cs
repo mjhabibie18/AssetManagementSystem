@@ -1,6 +1,7 @@
 ﻿using AssetManagement.Base;
 using AssetManagement.Models;
 using AssetManagement.Repositories.Data;
+using AssetManagement.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,11 @@ namespace AssetManagement.Controllers
     public class ItemController : BaseController<Item, ItemRepository, int>
     {
         private ItemRepository itemRepository;
-        public ItemController(ItemRepository itemRepository) : base(itemRepository)
+        private readonly IGenericDapper dapper;
+        public ItemController(ItemRepository itemRepository, IGenericDapper dapper) : base(itemRepository)
         {
             this.itemRepository = itemRepository;
+            this.dapper = dapper;
         }
     }
 }

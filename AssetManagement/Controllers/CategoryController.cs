@@ -1,6 +1,7 @@
 ﻿using AssetManagement.Base;
 using AssetManagement.Models;
 using AssetManagement.Repositories.Data;
+using AssetManagement.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,11 @@ namespace AssetManagement.Controllers
     public class CategoryController : BaseController<Category, CategoryRepository, int>
     {
         private CategoryRepository categoryRepository;
-        public CategoryController(CategoryRepository categoryRepository) : base(categoryRepository)
+        private readonly IGenericDapper dapper;
+        public CategoryController(CategoryRepository categoryRepository, IGenericDapper dapper) : base(categoryRepository)
         {
             this.categoryRepository = categoryRepository;
+            this.dapper = dapper;
         }
     }
 }

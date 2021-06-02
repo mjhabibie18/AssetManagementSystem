@@ -1,6 +1,7 @@
 ﻿using AssetManagement.Base;
 using AssetManagement.Models;
 using AssetManagement.Repositories.Data;
+using AssetManagement.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,11 @@ namespace AssetManagement.Controllers
     public class RoleController : BaseController<Role, RoleRepository, int>
     {
         private RoleRepository roleRepository;
-        public RoleController(RoleRepository roleRepository) : base(roleRepository)
+        private readonly IGenericDapper _dapper;
+        public RoleController(RoleRepository roleRepository, IGenericDapper dapper) : base(roleRepository)
         {
             this.roleRepository = roleRepository;
+            _dapper = dapper;
         }
     }
 }

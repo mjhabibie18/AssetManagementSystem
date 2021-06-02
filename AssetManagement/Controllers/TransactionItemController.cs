@@ -1,6 +1,7 @@
 ﻿using AssetManagement.Base;
 using AssetManagement.Models;
 using AssetManagement.Repositories.Data;
+using AssetManagement.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,11 @@ namespace AssetManagement.Controllers
     public class TransactionItemController : BaseController<TransactionItem, TransactionItemRepository, int>
     {
         private TransactionItemRepository transactionitemRepository;
-        public TransactionItemController(TransactionItemRepository transactionitemRepository) : base(transactionitemRepository)
+        private readonly IGenericDapper dapper;
+        public TransactionItemController(TransactionItemRepository transactionitemRepository, IGenericDapper dapper) : base(transactionitemRepository)
         {
             this.transactionitemRepository = transactionitemRepository;
+            this.dapper = dapper;
         }
     }
 }
