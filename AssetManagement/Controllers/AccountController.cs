@@ -158,7 +158,7 @@ namespace AssetManagement.Controllers
                 //var callback = Url.Action(nameof(ResetPassword), "api/JwtAuth/", new { token }, Request.Scheme);
 
                 string subject = "Your changed password";
-                string body = token;
+                string body = "https://localhost:44334/Authentication/ResetPassword?token="+token;
                 emailManager.SendEmail(_config.GetSection("MailSettings").GetSection("Mail").Value,
                     subject, body, forget.Email);
 
@@ -168,33 +168,32 @@ namespace AssetManagement.Controllers
         }
 
         [HttpPut("ResetPassword")]
-        [Authorize]
-        public ActionResult ResetPassword([FromBody] ChangePassword password)
+        
+        public ActionResult ResetPassword(ResetPassword reset)
         {
             try
             {
-                if (password.NewPassword == password.ConfirmPassword)
+                string token = reset.Token;
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
+
+                var email = jwt.Claims.First(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").Value;
+                var isExist = _context.Accounts.FirstOrDefault(u => u.Employee.Email == email);
+
+                isExist.Password = BCrypt.Net.BCrypt.HashPassword(reset.Password);
+
+                var result = accountRepository.Put(isExist);
+                if (result > 0)
                 {
-                    var currentUser = HttpContext.User.Claims.ToList();
-                    var email = currentUser.FirstOrDefault(c => c.Type.Contains("email")).Value;
-                    var isValid = _context.Accounts.SingleOrDefault(l => l.Employee.Email == email);
-
-                    isValid.Password = BCrypt.Net.BCrypt.HashPassword(password.NewPassword);
-
-                    _context.Entry(isValid).State = EntityState.Modified;
-                    var result = _context.SaveChanges();
-
-                    if (result > 0)
-                    {
-                        return Ok("Password changed successfully");
-                    }
+                    return Ok(new { Status = "Success", Message = "Password has been reset" });
                 }
-                return BadRequest("Change Password Failed");
+                return BadRequest();
             }
             catch (Exception)
             {
-                return Unauthorized();
+                return BadRequest();
             }
+
         }
     }
 }
