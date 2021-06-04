@@ -1,6 +1,7 @@
 ﻿using AssetManagement.Base;
 using AssetManagement.Models;
 using AssetManagement.Repositories.Data;
+using AssetManagement.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,11 @@ namespace AssetManagement.Controllers
     public class DepartmentController : BaseController<Department, DepartmentRepository, int>
     {
         private DepartmentRepository departmentRepository;
-        public DepartmentController(DepartmentRepository departmentRepository) : base(departmentRepository)
+        private readonly IGenericDapper dapper;
+        public DepartmentController(DepartmentRepository departmentRepository, IGenericDapper dapper) : base(departmentRepository)
         {
             this.departmentRepository = departmentRepository;
+            this.dapper = dapper;
         }
     }
 }

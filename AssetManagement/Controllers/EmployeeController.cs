@@ -1,6 +1,7 @@
 ﻿using AssetManagement.Base;
 using AssetManagement.Models;
 using AssetManagement.Repositories.Data;
+using AssetManagement.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,11 @@ namespace AssetManagement.Controllers
     public class EmployeeController : BaseController<Employee, EmployeeRepository, int>
     {
         private EmployeeRepository employeeRepository;
-        public EmployeeController(EmployeeRepository employeeRepository) : base(employeeRepository)
+        private readonly IGenericDapper dapper;
+        public EmployeeController(EmployeeRepository employeeRepository, IGenericDapper dapper) : base(employeeRepository)
         {
             this.employeeRepository = employeeRepository;
+            this.dapper = dapper;
         }
     }
 }

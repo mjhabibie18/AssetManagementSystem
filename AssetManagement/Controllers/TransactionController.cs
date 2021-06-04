@@ -18,7 +18,7 @@ namespace AssetManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Employee, Manager, Admin")]
+    [Authorize]
     public class TransactionController : BaseController<Transactions, TransactionRepository, int>
     {
         private TransactionRepository transactionRepository;
@@ -32,8 +32,6 @@ namespace AssetManagement.Controllers
         [HttpPost("request")]
         public IActionResult RequestItem(RequestAsset assets)
         {
-            try
-            {
                 var dbparams = new DynamicParameters();
                 dbparams.Add("RequestDate", assets.Request, DbType.DateTime);
                 dbparams.Add("ReturnDate", assets.Return, DbType.DateTime);
@@ -54,11 +52,6 @@ namespace AssetManagement.Controllers
                     var res = Task.FromResult(dapper.Insert<int>("[dbo].[SP_InsertTransItem]", paramTransItem, CommandType.StoredProcedure));
                 }
                 return Ok(new { Message = "Request successful." });
-            }
-            catch(Exception e)
-            {
-                return BadRequest("Request not Successfully" + e.Message);
-            } 
         }
     }
 }
