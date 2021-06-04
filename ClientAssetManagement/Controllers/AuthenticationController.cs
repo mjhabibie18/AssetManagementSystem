@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -61,7 +62,7 @@ namespace ClientAssetManagement.Controllers
             if (result.IsSuccessStatusCode)
             {
                 return Ok(new { result });
-                //return Url.Action("Index", "Authentication");
+                
             }
             else
             {
@@ -78,13 +79,26 @@ namespace ClientAssetManagement.Controllers
 
             HttpContext.Session.SetString("JWToken", token);
 
-            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             if (result.IsSuccessStatusCode)
             {
-                //return RedirectToRoute(new { action = "Index", controller = "Home", area = "" });
-                //return Ok(new { result });
-                return Url.Action("Index", "Home");
+                var jwtReader = new JwtSecurityTokenHandler();
+                var jwt = jwtReader.ReadJwtToken(token);
+
+                var role = jwt.Claims.First(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value;
+                if(role == "Employee")
+                {
+                    return Url.Action("FormRequestEmployee", "Employee");
+                }
+                else if(role == "Admin")
+                {
+                    return Url.Action("Index", "Home");
+                }
+                else
+                {
+                    return Url.Action("Index", "Home");
+                }
+                
             }
             else
             {
