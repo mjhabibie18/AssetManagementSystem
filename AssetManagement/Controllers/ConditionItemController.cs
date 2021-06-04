@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using ConditionItem = AssetManagement.Models.ConditionItem;
 
 namespace AssetManagement.Controllers
 {
@@ -36,7 +37,7 @@ namespace AssetManagement.Controllers
             {
                 var dbparams = new DynamicParameters();
                 dbparams.Add("ItemId", condItem.ItemId, DbType.Int32);
-                for(int i = 0; i < condItem.moreConditions.Count; i++)
+                for (int i = 0; i < condItem.moreConditions.Count; i++)
                 {
                     dbparams.Add("ConditionId", condItem.moreConditions[i].ConditionId, DbType.Int32);
                     var res = Task.FromResult(dapper.Insert<int>("[dbo].[SP_InsertConditionItem]", dbparams, CommandType.StoredProcedure));

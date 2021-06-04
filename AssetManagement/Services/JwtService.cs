@@ -35,8 +35,8 @@ namespace AssetManagement.Services
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
-            tokenDescriptor.Audience = "localhost:44320";
-            tokenDescriptor.Issuer = "localhost:44320";
+            tokenDescriptor.Audience = "localhost:44393";
+            tokenDescriptor.Issuer = "localhost:44393";
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);

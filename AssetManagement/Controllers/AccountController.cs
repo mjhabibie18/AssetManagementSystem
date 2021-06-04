@@ -158,7 +158,7 @@ namespace AssetManagement.Controllers
                 //var callback = Url.Action(nameof(ResetPassword), "api/JwtAuth/", new { token }, Request.Scheme);
 
                 string subject = "Your changed password";
-                string body = token;
+                string body = "https://localhost:44334/Authentication/ResetPassword?token="+token;
                 emailManager.SendEmail(_config.GetSection("MailSettings").GetSection("Mail").Value,
                     subject, body, forget.Email);
 
@@ -167,9 +167,8 @@ namespace AssetManagement.Controllers
             return NotFound("this email does not exist in database");
         }
 
-        [HttpPut]
-        [Route("ResetPassword")]
-        public IActionResult ResetPassword([FromBody]ResetPassword reset)
+        [HttpPut("ResetPassword")]
+        public ActionResult ResetPassword(ResetPassword reset)
         {
             try
             {
@@ -177,7 +176,7 @@ namespace AssetManagement.Controllers
                 var jwtReader = new JwtSecurityTokenHandler();
                 var jwt = jwtReader.ReadJwtToken(token);
 
-                var email = jwt.Claims.First(c => c.Type == "email").Value;
+                var email = jwt.Claims.First(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").Value;
                 var isExist = _context.Accounts.FirstOrDefault(u => u.Employee.Email == email);
 
                 isExist.Password = BCrypt.Net.BCrypt.HashPassword(reset.Password);
