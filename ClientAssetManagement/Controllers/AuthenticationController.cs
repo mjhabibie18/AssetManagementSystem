@@ -17,10 +17,10 @@ namespace ClientAssetManagement.Controllers
     {
         public IActionResult Index()
         {
+            //HttpContext.Session.Remove("JWToken");
             return View();
         }
-        
-        public IActionResult Login()
+        public IActionResult ForgetPassword()
         {
             return View();
         }
@@ -29,42 +29,52 @@ namespace ClientAssetManagement.Controllers
         {
             return View();
         }
-        
-        public IActionResult ForgotPassword()
-        {
-            return View();
-        }
-
         public IActionResult ResetPassword()
         {
-            return View();
+            if (Request.Query.ContainsKey("token"))
+            {
+                var token = Request.Query["token"].ToString();
+                ViewData["token"] = token;
+                return View();
+            }
+            return NotFound();
         }
-
-        
-
-
-        public IActionResult RegisterApi(Register register)
+        public IActionResult ForgetPasswordApi(ForgetPassword forgot)
         {
-            var userClient = new HttpClient();
-            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(register), Encoding.UTF8, "application/json");
-            var result = userClient.PostAsync("https://localhost:44393/api/Account/Register", stringContent).Result;
+            var client = new HttpClient();
+            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(forgot), Encoding.UTF8, "application/json");
+            var result = client.PostAsync("https://localhost:44393/api/Account/ForgetPassword", stringContent).Result;
             if (result.IsSuccessStatusCode)
             {
                 return Ok(new { result });
-                
             }
             else
             {
                 return BadRequest(new { result });
-                //return "Error";
             }
         }
 
-        public IActionResult LoginApi(Login login)
+        public IActionResult ResetPasswordApi(ResetPassword reset)
         {
-            var userClient = new HttpClient();
+            var client = new HttpClient();
+            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(reset), Encoding.UTF8, "application/json");
+            var result = client.PutAsync("https://localhost:44393/api/Account/ResetPassword", stringContent).Result;
+            if (result.IsSuccessStatusCode)
+            {
+                return Ok(new { result });
+
+            }
+            else
+            {
+                return BadRequest(new { result });
+            }
+        }
+
+        public string LoginApi(Login login)
+        {
+            var client = new HttpClient();
             StringContent stringContent = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
-            var result = userClient.PostAsync("https://localhost:44380/api/accounts/login", stringContent).Result;
+            var result = client.PostAsync("https://localhost:44393/api/Account/Login", stringContent).Result;
             var token = result.Content.ReadAsStringAsync().Result;
 
             HttpContext.Session.SetString("JWToken", token);
@@ -76,39 +86,46 @@ namespace ClientAssetManagement.Controllers
                 var jwt = jwtReader.ReadJwtToken(token);
 
                 var role = jwt.Claims.First(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value;
-                if(role == "Employee")
+                if (role == "Employee")
                 {
                     return Url.Action("FormRequestEmployee", "Employee");
                 }
-                else if(role == "Admin")
+                else if (role == "Admin")
                 {
-                    return Url.Action("Index", "Home");
+                    return Url.Action("DashAdmin", "Admin");
                 }
                 else
                 {
-                    return Url.Action("Index", "Home");
+                    return Url.Action("DashManager", "Manager");
                 }
-                
+
             }
             else
             {
-                //return "Error";
-                return BadRequest(new { result });
+                return "Error";
+                //return BadRequest(new { result });
             }
         }
 
-        public IActionResult ForgetPasswordApi(ForgetPassword forget)
+        public ActionResult Logout()
         {
-            var userClient = new HttpClient();
-            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(forget), Encoding.UTF8, "application/json");
-            var result = userClient.PostAsync("https://localhost:44393/api/Account/ForgetPassword", stringContent).Result;
+            HttpContext.Session.Remove("JWToken");
+            return RedirectToAction("Index", "Authentication");
+        }
+        public string RegisterApi(Register register)
+        {
+            var client = new HttpClient();
+            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(register), Encoding.UTF8, "application/json");
+            var result = client.PostAsync("https://localhost:44393/api/Account/Register", stringContent).Result;
             if (result.IsSuccessStatusCode)
             {
-                return Ok(new { result });
+                //return Ok(new { result });
+                return Url.Action("Index", "Authentication");
             }
             else
             {
-                return BadRequest(new { result });
+                //return BadRequest(new { result });
+                return "Error";
             }
         }
     }

@@ -117,7 +117,7 @@
                              with font-awesome or any other icon font library -->
                         <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-file-text"></i>
                                 <p>
                                     Form
                                     <i class="right fas fa-angle-left"></i>
@@ -125,13 +125,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="./index.html" class="nav-link active">
+                                    <a href="FormReqEmployee.html" class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Request</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link">
+                                    <a href="./FormRetEmployee.html" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Return</p>
                                     </a>
@@ -170,75 +170,71 @@
                     <div class="row">
                         <!-- left column -->
                         <div class="col-md-12">
-                            <form>
-                                <!-- general form elements -->
-                                <div class="card card-primary">
-
-                                    <div class="card-header">
-                                        <h3 class="card-title">Request</h3>
+                            <!-- general form elements -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Request</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <!-- form start -->
+                                <form>
+                                    <div class="form-group">
+                                        <label for="inputName">ID Employee</label>
+                                        <input type="text" id="employeeId" class="form-control">
                                     </div>
-                                    <!-- /.card-header -->
-                                    <!-- form start -->
-
-                                    <div class="input-group mb-3">
-                                        <select class="custom-select" id="inputGroupSelect01">
-                                            <option selected>Choose...</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                    <div class="form-group">
+                                        <label for="inputStatus">Item Name</label>
+                                        <select id="itemName" class="form-control custom-select">
+                                            <option selected disabled>-- Select --</option>
+                                            <option>On Hold</option>
+                                            <option>Canceled</option>
+                                            <option>Success</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Password</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                        <label for="birthDate">Request</label>
+                                        <input type="date" name="request" class="form-control" id="Request" placeholder="Request" required />
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputFile">File input</label>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="exampleInputFile">
-                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                            </div>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">Upload</span>
-                                            </div>
-                                        </div>
+                                        <label for="birthDate">Return</label>
+                                        <input type="date" name="return" class="form-control" id="Return" placeholder="Return" required />
                                     </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                    <div class="form-group">
+                                        <label for="inputName">Status</label>
+                                        <input type="text" id="status" class="form-control">
                                     </div>
 
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </form>
+                                    <!-- /.card-body -->
+
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </section>
-        </div>
-        
-        <!-- /.content -->
-    </div>
-    <div>
-    <!-- /.content-wrapper -->
-    <footer class="main-footer">
-        <strong>Copyright &copy; 2021.</strong>
-        Muhammad Jurnalies Habibie & Muljadi.
-        <div class="float-right d-none d-sm-inline-block">
-            <b>Batch 48 METRODATA</b>
-        </div>
-    </footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+
+
+
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2021.</strong>
+            Muhammad Jurnalies Habibie & Muljadi.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Batch 48 METRODATA</b>
+            </div>
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
 
@@ -251,7 +247,7 @@
     <script src="~/assetadminlte/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
-  $.widget.bridge('uibutton', $.ui.button)
+        $.widget.bridge('uibutton', $.ui.button)
     </script>
     <!-- Bootstrap 4 -->
     <script src="~/assetadminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -283,43 +279,55 @@
 
     <script>
         $(document).ready(function () {
-                $.ajax({
-                    type: "GET",
-                    url: "GetItem",
-                    success: (data) => {
+            $('#RequestForm').submit(function (e) {
+                e.preventDefault();
+                Request();
+            })
+            $.ajax({
+                type: "GET",
+                url: "GetItem",
+                success: (data) => {
 
-                        console.log(data)
-                        $('#inputGroupSelect01').empty()
-                        for (let i = 0; i < data.length; i++) {
-                            let id = data[i].id
-                            let itemName = data[i].itemName
-
-                            $("#inputGroupSelect01").append("<option value='" + id + "'>" + itemName + "</option>")
-                        }
+                    console.log(data)
+                    $('#itemName').empty()
+                    for (let i = 0; i < data.length; i++) {
+                        let id = data[i].id
+                        let itemName = data[i].itemName
+                        $("#itemName").append("<option value='" + id + "'>" + itemName + "</option>")
                     }
-                })
-            // Activate tooltip
-            $('[data-toggle="tooltip"]').tooltip();
+                }
+            })
+        });
+        const Request = () => {
+            let User = {
+                employeeId: $("#employeeid").val(),
+                request: $("#requestdate").val(),
+                return: $("#returndate").val(),
+                status: $("#status").val(),
+                transItem: $("#itemName").val()
+            };
+            $.ajax({
+                type: "POST",
+                url: "RequestApi",
+                data: User,
+                success: (data) => {
+                    console.log(data)
+                    //alert(data)
+                    Swal.fire({
+                        text: 'Request has success',
+                        icon: 'success',
+                        timer: 10000
+                    }).then(() => {
+                        window.location.href = data;
+                    })
 
-  // Select/Deselect checkboxes
-  var checkbox = $('table tbody input[type="checkbox"]');
-  $("#selectAll").click(function(){
-    if(this.checked){
-      checkbox.each(function(){
-        this.checked = true;
-      });
-    } else{
-      checkbox.each(function(){
-        this.checked = false;
-      });
-    }
-  });
-  checkbox.click(function(){
-    if(!this.checked){
-      $("#selectAll").prop("checked", false);
-    }
-  });
-});
+                },
+                error: (data) => {
+                    console.log(data)
+                    //alert(data)
+                }
+            });
+        }
     </script>
 </body>
 </html>

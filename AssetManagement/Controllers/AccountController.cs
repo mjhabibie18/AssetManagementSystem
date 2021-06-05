@@ -93,7 +93,7 @@ namespace AssetManagement.Controllers
             if (BCrypt.Net.BCrypt.Verify(login.Password, result.Password))
             {
                 var token = GenerateJWT(result.Name, result.Email, result.Role);
-                return Ok(new { token });
+                return Ok(token);
             }
 
             return BadRequest("Wrong Password");
@@ -158,7 +158,7 @@ namespace AssetManagement.Controllers
                 //var callback = Url.Action(nameof(ResetPassword), "api/JwtAuth/", new { token }, Request.Scheme);
 
                 string subject = "Your changed password";
-                string body = "https://localhost:44334/Authentication/ResetPassword?token="+token;
+                string body = "https://localhost:44355/Authentication/ResetPassword?token="+token;
                 emailManager.SendEmail(_config.GetSection("MailSettings").GetSection("Mail").Value,
                     subject, body, forget.Email);
 

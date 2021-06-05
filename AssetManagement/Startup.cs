@@ -42,7 +42,7 @@ namespace AssetManagement
                 options.AddPolicy("MyAllowSpecificOrigins",
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://www.test-cors.org")
+                                      builder.WithOrigins("http://www.test-cors.org", "https://localhost:44355/")
                                       .AllowAnyHeader().WithMethods("POST", "PUT", "GET");
                                   });
             });

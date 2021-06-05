@@ -1,0 +1,340 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "DataTableAdmin";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Asset Management</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/assetadminlte/plugins/fontawesome-free/css/all.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/assetadminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/assetadminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/assetadminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/assetadminlte/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="index3.html" class="nav-link">Home</a>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Navbar Search -->
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                        <i class="fas fa-search"></i>
+                    </a>
+                    <div class="navbar-search-block">
+                        <form class="form-inline">
+                            <div class="input-group input-group-sm">
+                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-navbar" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user"></i> Admin
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="index.html">Dashboard</a>
+                        <a class="dropdown-item" href="#">Log Out</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <!-- Sidebar -->
+
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="info">
+                        <a class="d-block fa fa-cubes"> &nbsp; Asset Management</a>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item">
+                            <a asp-controller="Admin" asp-action="DashAdmin" class="nav-link">
+                                <i class="nav-icon fas fa-home"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item  menu-open">
+                            <a asp-controller="Admin" asp-action="DataTableAdmin" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>Data Table</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Admin" asp-action="Procurement" class="nav-link">
+                                <i class="nav-icon fas fa-shopping-cart"></i>
+                                <p>Procurement</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Data Tables</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Data Tables</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example2" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Rendering engine</th>
+                                                <th>Browser</th>
+                                                <th>Platform(s)</th>
+                                                <th>Engine version</th>
+                                                <th>CSS grade</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Trident</td>
+                                                <td>
+                                                    Internet
+                                                    Explorer 4.0
+                                                </td>
+                                                <td>Win 95+</td>
+                                                <td> 4</td>
+                                                <td>X</td>
+                                                <td class="text-right py-0 align-middle">
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="#" class="btn btn-info"><i class="fas fa-pen"></i></a>
+                                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Trident</td>
+                                                <td>
+                                                    Internet
+                                                    Explorer 5.0
+                                                </td>
+                                                <td>Win 95+</td>
+                                                <td>5</td>
+                                                <td>C</td>
+                                                <td class="text-right py-0 align-middle">
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="#" class="btn btn-info"><i class="fas fa-pen"></i></a>
+                                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Trident</td>
+                                                <td>
+                                                    Internet
+                                                    Explorer 5.5
+                                                </td>
+                                                <td>Win 95+</td>
+                                                <td>5.5</td>
+                                                <td>A</td>
+                                                <td class="text-right py-0 align-middle">
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="#" class="btn btn-info"><i class="fas fa-pen"></i></a>
+                                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Misc</td>
+                                                <td>PSP browser</td>
+                                                <td>PSP</td>
+                                                <td>-</td>
+                                                <td>C</td>
+                                                <td class="text-right py-0 align-middle">
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="#" class="btn btn-info"><i class="fas fa-pen"></i></a>
+                                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Other browsers</td>
+                                                <td>All others</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>U</td>
+                                                <td class="text-right py-0 align-middle">
+                                                    <div class="btn-group btn-group-sm">
+                                                        <a href="#" class="btn btn-info"><i class="fas fa-pen"></i></a>
+                                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+            <div class="modal fade" id="modaltambah" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title"> Form Procurement</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="dataForm">
+                                <div class="form-group">
+                                    <label for="ItemName">Item Name</label>
+                                    <input type="text" name="itemName" class="form-control" id="ItemName" placeholder="Item Name" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="ItemName">Description</label>
+                                    <input type="text" name="description" class="form-control" id="Description" placeholder="Description" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="ItemName">Price</label>
+                                    <input type="text" name="price" class="form-control" id="Price" placeholder="Price" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="birthDate">Procurement Date</label>
+                                    <input type="date" name="procurementDate" class="form-control" id="ProcurementDate" placeholder="Procurement Date" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputStatus">Status</label>
+                                    <select id="itemName" class="form-control custom-select">
+                                        <option selected disabled>-- Select --</option>
+                                        <option>On Hold</option>
+                                        <option>Processing</option>
+                                        <option>Approved</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="btnAdd" @*onclick="Insert();"*@>Add</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2021.</strong>
+            Muhammad Jurnalies Habibie & Muljadi.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Batch 48 METRODATA</b>
+            </div>
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="~/assetadminlte/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/assetadminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="~/assetadminlte/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assetadminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/assetadminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/assetadminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/assetadminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/assetadminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/assetadminlte/plugins/jszip/jszip.min.js"></script>
+    <script src="~/assetadminlte/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/assetadminlte/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/assetadminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/assetadminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/assetadminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/assetadminlte/dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/assetadminlte/dist/js/demo.js"></script>
+    <!-- Page specific script -->
+    <script>
+  $(function () {
+    $("#example2").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": [ "csv", "excel", "pdf", "print"]
+    }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+  });
+    </script>
+</body>
+</html>
+

@@ -45,8 +45,8 @@ namespace ClientAssetManagement
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "http://localhost:44334",
-                    ValidAudience = "http://localhost:44334",
+                    ValidIssuer = "https://localhost:44355",
+                    ValidAudience = "https://localhost:44355",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:secret"]))
                 };
             });
@@ -57,8 +57,8 @@ namespace ClientAssetManagement
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            {
             if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
             }
             else
