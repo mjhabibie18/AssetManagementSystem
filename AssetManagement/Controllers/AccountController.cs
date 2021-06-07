@@ -93,7 +93,7 @@ namespace AssetManagement.Controllers
             if (BCrypt.Net.BCrypt.Verify(login.Password, result.Password))
             {
                 var token = GenerateJWT(result.Name, result.Email, result.Role);
-                return Ok(new { token });
+                return Ok(token);
             }
 
             return BadRequest("Wrong Password");

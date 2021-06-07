@@ -1,4 +1,5 @@
 ﻿using AssetManagement.Models;
+using AssetManagement.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ClientAssetManagement.Controllers
@@ -34,6 +36,24 @@ namespace ClientAssetManagement.Controllers
             var data = JsonConvert.DeserializeObject<List<Item>>(item);
             return data;
 
+        }
+        public string RequestApi(RequestAsset requestAsset)
+        {
+            var token = HttpContext.Session.GetString("JWToken");
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            StringContent stringContent = new StringContent(JsonConvert.SerializeObject(requestAsset), Encoding.UTF8, "application/json");
+            var result = client.PostAsync("https://localhost:44393/api/Transaction/request", stringContent).Result;
+            if (result.IsSuccessStatusCode)
+            {
+                //return Ok(new { result });
+                return Url.Action("FormRequestEmployee", "Employee");
+            }
+            else
+            {
+                //return BadRequest(new { result });
+                return "Error";
+            }
         }
     }
 

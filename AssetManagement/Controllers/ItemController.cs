@@ -27,5 +27,7 @@ namespace AssetManagement.Controllers
             this.itemRepository = itemRepository;
             this.dapper = dapper;
         }
+
     }
+
 }

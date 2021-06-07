@@ -17,7 +17,7 @@ namespace ClientAssetManagement.Controllers
     {
         public IActionResult Index()
         {
-            //HttpContext.Session.Remove("JWToken");
+            HttpContext.Session.Remove("JWToken");
             return View();
         }
         public IActionResult ForgetPassword()
@@ -92,11 +92,11 @@ namespace ClientAssetManagement.Controllers
                 }
                 else if(role == "Admin")
                 {
-                    return Url.Action("Index", "Home");
+                    return Url.Action("Index", "Admin");
                 }
                 else
                 {
-                    return Url.Action("Index", "Home");
+                    return Url.Action("Index", "Manager");
                 }
                 
             }

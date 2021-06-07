@@ -5,6 +5,7 @@ using AssetManagement.Repositories.Interface;
 using AssetManagement.ViewModels;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,6 +19,7 @@ namespace AssetManagement.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Admin, Manager")]
+    
     public class ProcurementController : BaseController<Procurement, ProcurementRepository, int>
     {
         private ProcurementRepository procurementRepository;
