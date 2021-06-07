@@ -54,14 +54,14 @@ namespace ClientAssetManagement.Controllers
         }
 
        [HttpPost]
-       public HttpStatusCode Approved(int ProcurementId)
+       public string Approved(int Id)
         {
             var token = HttpContext.Session.GetString("JWToken");
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            StringContent content = new StringContent(JsonConvert.SerializeObject(ProcurementId), Encoding.UTF8, "application/json");
-            var result = client.PostAsync("https://localhost:44393/api/Procurement/Approve-Procurement", content).Result;
-            return result.StatusCode;
+            StringContent content = new StringContent(JsonConvert.SerializeObject(Id), Encoding.UTF8, "application/json");
+            var result = client.PostAsync("https://localhost:44393/api/Procurement/Approve-Procurement/" + Id, content).Result;
+            return Url.Action("Manager", "Manager");
         }
 
         [HttpPut]

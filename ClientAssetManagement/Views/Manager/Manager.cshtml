@@ -190,46 +190,23 @@
                                                     </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary" onclick="Approved(Id)">Save changes</button>
+                                                <button type="button" class="btn btn-primary" onclick="Approved()">Save changes</button>
                                             </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
-                                @*<div class="modal fade" id="modalApproved" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title"> Form Procurement</h4>
-                        <br />
-                        <br />
-                    </div>
-                    <div class="modal-body">
-                        <form id="dataForm">
-                            <div class="form-group">
-                                <label for="ItemName">Id</label>
-                                <input type="text" name="itemName" class="form-control" id="Id" placeholder="Item Name" required />
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="btnAdd" onclick="update()">Approved</button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>*@
                             </div>
                             <!-- /.card -->
                         </div>
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
             </section>
             <!-- /.content -->
-            <
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
@@ -333,16 +310,11 @@
                 $('#Id').val(data.id);
             });
         })
-        function update() {
-            Approved(Id);
-        }
-        const Approved = (Id) => {
-            var User = new Object();
-            User.id = $("#Id");
+        const Approved = () => {
+            var Id = $("#Id").val();
             $.ajax({
                 type: "POST",
-                url: "Approved",
-                data: User,
+                url: `Approved/${Id}`,
                 success: (data) => {
                     console.log(data)
                     //alert(data)

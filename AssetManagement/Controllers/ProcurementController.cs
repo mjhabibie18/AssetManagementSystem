@@ -30,14 +30,14 @@ namespace AssetManagement.Controllers
             _dapper = dapper;
         }
 
-        [HttpPost("Approve-Procurement")]
+        [HttpPost("Approve-Procurement/{Id}")]
         [Authorize(Roles = "Manager")]
-        public IActionResult ApproveProcurement(int ProcurementId)
+        public IActionResult ApproveProcurement(int Id)
         {
             try
             {
                 var dbparams = new DynamicParameters();
-                dbparams.Add("ProcurementId", ProcurementId, DbType.Int32);
+                dbparams.Add("ProcurementId", Id, DbType.Int32);
                 var result = Task.FromResult(_dapper.Insert<int>("[dbo].[SP_ApproveProcurement]", dbparams, CommandType.StoredProcedure));
                 return Ok("Procurement Approve");
             }
