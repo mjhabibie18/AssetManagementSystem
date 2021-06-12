@@ -11,7 +11,7 @@ namespace AssetManagement.ViewModels
         public string Email { get; set; }
         public string Password { get; set; }
         public string Contact { get; set; }
-        public int RoleId { get; set; }
-        public int DepartmentId { get; set; }
+        //public int RoleId { get; set; }
+        //public int DepartmentId { get; set; }
     }
 }

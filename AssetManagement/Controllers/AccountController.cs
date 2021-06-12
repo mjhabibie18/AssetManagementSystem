@@ -110,11 +110,17 @@ namespace AssetManagement.Controllers
             dbparams.Add("Email", register.Email, DbType.String);
             dbparams.Add("Password", hashPassword, DbType.String);
             dbparams.Add("Contact", register.Contact, DbType.String);
-            dbparams.Add("RoleId", register.RoleId, DbType.String);
-            dbparams.Add("DepartmentId", register.DepartmentId, DbType.String);
+            //dbparams.Add("RoleId", register.RoleId, DbType.String);
+            //dbparams.Add("DepartmentId", register.DepartmentId, DbType.String);
 
             var result = Task.FromResult(_dapper.Insert<int>("[dbo].[SP_Register]",
                 dbparams, commandType: CommandType.StoredProcedure));
+
+            EmailManager emailManager = new EmailManager(_config, _context);
+            string subject = "Konfirmasi Akun Register Asset Management System";
+            string body = "Akun berhasil register Nama: " + register.Name + " Email: " + register.Email;
+            emailManager.SendEmail(_config.GetSection("MailSettings").GetSection("Mail").Value,
+                subject, body, register.Email);
 
             return Ok(new { Status = "Success", Message = "User has been registered successfully" });
         }

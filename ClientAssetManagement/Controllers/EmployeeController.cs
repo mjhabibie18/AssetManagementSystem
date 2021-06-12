@@ -37,7 +37,7 @@ namespace ClientAssetManagement.Controllers
             return data;
 
         }
-        public string RequestApi(RequestAsset requestAsset)
+        public string RequestApi([FromBody]RequestAsset requestAsset)
         {
             var token = HttpContext.Session.GetString("JWToken");
             var client = new HttpClient();
@@ -47,7 +47,8 @@ namespace ClientAssetManagement.Controllers
             if (result.IsSuccessStatusCode)
             {
                 //return Ok(new { result });
-                return Url.Action("FormRequestEmployee", "Employee");
+                //return Url.Action("FormRequestEmployee", "Employee");
+                return "SUKSES";
             }
             else
             {

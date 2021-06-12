@@ -11,8 +11,7 @@ namespace AssetManagement.ViewModels
         public DateTime Request { get; set; }
         public DateTime Return { get; set; }
         public string Status { get; set; }
-
-        public List<TransItem> items { get; set; }
+        public TransItem[] items { get; set; }
     }
 
     public class TransItem

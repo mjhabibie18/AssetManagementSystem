@@ -131,12 +131,6 @@
                                         <p>Request</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="./FormRetEmployee.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Return</p>
-                                    </a>
-                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -179,10 +173,10 @@
                                 <!-- /.card-header -->
                                 <!-- form start -->
                                 <form id="RequestForm">
-                                    <div class="form-group">
+                                    @*<div class="form-group">
                                         <label for="inputName">ID Employee</label>
                                         <input type="text" id="employeeId" class="form-control">
-                                    </div>
+                                    </div>*@
                                     <div class="form-group">
                                         <label for="inputStatus">Item Name</label>
                                         <select id="itemName" class="form-control custom-select">
@@ -296,24 +290,32 @@
             })
         });
         const Request = () => {
-            let User = {
-                employeeId: $("#employeeId").val(),
+            let arrItems = [
+                {
+                    itemId: parseInt($("#itemName").val())
+                }
+            ]
+            
+            /*let empId = parseInt($("#employeeId").val())*/
+            let transaction = {
+                /*employeeId : empId,*/
                 request: $("#Request").val(),
                 return: $("#Return").val(),
                 status: "Processed",
-                transItem: $("#itemName").val()
-            };
+                items : arrItems
+            }
             $.ajax({
                 type: "POST",
                 url: "RequestApi",
-                data: User,
+                data: JSON.stringify(transaction),
+                contentType: "application/json; charset=utf-8",
                 success: (data) => {
-                    console.log(data)
+                    //console.log(data)
                     //alert(data)
                     Swal.fire({
                         text: 'Request has success',
                         icon: 'success',
-                        timer: 10000
+                        timer: 5000
                     }).then(() => {
                         window.location.href = 'https://localhost:44334/Employee/FormRequestEmployee';
                     })

@@ -106,7 +106,7 @@
                         <li class="nav-item">
                             <a asp-controller="Manager" asp-action="DataTableManager" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
-                                <p>Data Table</p>
+                                <p>Table Request Asset</p>
                             </a>
                         </li>
                         <li class="nav-item menu-open">
@@ -135,7 +135,7 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a asp-controller="Manager" asp-action="Index">Home</a></li>
                                 <li class="breadcrumb-item active">Procurement</li>
                             </ol>
                         </div>
@@ -151,9 +151,9 @@
                             <div class="card">
                                 <div class="card-header">
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                         Launch demo modal
-                                    </button>
+                                    </button>*@
                                 </div>
                                 <div class="card-body">
                                     <table id="ProcurementTable" class="table table-bordered table-hover">
@@ -166,7 +166,7 @@
                                                 <th>Price</th>
                                                 <th>Procurement Date</th>
                                                 <th>Status</th>
-                                                @*<th>Action</th>*@
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -185,7 +185,7 @@
                                             <div class="modal-body">
                                                 <form id="dataForm">
                                                     <div class="form-group">
-                                                        <label for="ItemName">Id</label>
+                                                        <label for="Id Procurement">Id</label>
                                                         <input type="text" name="itemName" class="form-control" id="Id" placeholder="Item Name" required />
                                                     </div>
                                             <div class="modal-footer">
@@ -278,14 +278,14 @@
                         }
                     },
                     { "data": "statusProcurement" },
-                    //{
-                    //    "data": "id",
-                    //    "render": function (data, type, row, meta) {
-                    //        return '<button type="button" id="btnApproved" class="btn btn-primary" data-toggle="modal"  style="margin-right : 5px;"  data-target="#modalEdit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data"><i class="fa fa-edit"></i></button>';
-                    //    },
-                    //    "orderable": false,
-                    //    "searchable": false
-                    //},
+                    {
+                        "data": "id",
+                        "render": function (id) {
+                            return `<button type="button" id="btnApproved" class="btn btn-primary" data-toggle="modal"  style="margin-right : 5px;"  onclick="Approved(${id})" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data"><i class="fa fa-check"></i></button>`;
+                        },
+                        "orderable": false,
+                        "searchable": false
+                    },
                 ],
                 buttons: [
                     {
@@ -310,11 +310,10 @@
                 $('#Id').val(data.id);
             });
         })
-        const Approved = () => {
-            var Id = $("#Id").val();
+        const Approved = (id) => {
             $.ajax({
                 type: "POST",
-                url: `Approved/${Id}`,
+                url: `Approved/${id}`,
                 success: (data) => {
                     console.log(data)
                     //alert(data)

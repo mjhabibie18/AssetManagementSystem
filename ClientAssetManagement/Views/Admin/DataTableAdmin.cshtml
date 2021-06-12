@@ -105,7 +105,7 @@
                         <li class="nav-item  menu-open">
                             <a asp-controller="Admin" asp-action="DataTableAdmin" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
-                                <p>Data Table</p>
+                                <p>Table Request Asset</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -130,12 +130,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Data Tables</h1>
+                            <h1>Table Request Asset</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="DataTableAdmin">Home</a></li>
-                                <li class="breadcrumb-item active">Data Tables</li>
+                                <li class="breadcrumb-item active">Table Request Asset</li>
                             </ol>
                         </div>
                     </div>
@@ -148,14 +148,17 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
+                                @*<div class="card-header">
+                                    <button type="button" class="btn btn-primary" onclick="request()" data-bs-toggle="tooltip" data-bs-placement="top" title="Insert Data"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                </div>*@
                                 <!-- /.card-header -->
                                 <div class="card-body">
                                     <table id="TransactionTable" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                @*<th>Transaction Id</th>
-                                                <th>Item Name</th>*@
+                                                <th>Transaction Id</th>
+                                                <th>Item Name</th>
                                                 <th>Status</th>
                                                 @*<th>Employee Id</th>*@
                                                 <th>Request Date</th>
@@ -190,11 +193,19 @@
                                     <input disabled type="hidden" class="form-control" id="id" name="id">
                                 </div>
                                 <div class="form-group">
+                                    <label for="Transaction Id">Transaction Id</label>
+                                    <input disabled type="text" name="itemName" class="form-control" id="TransId" placeholder="Item Name" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="ItemName">Item Name</label>
+                                    <input disabled type="text" name="itemName" class="form-control" id="ItemName" placeholder="Item Name" required />
+                                </div>
+                                <div class="form-group">
                                     <label for="inputStatus">Status</label>
                                     <select id="status" class="form-control custom-select">
-                                        <option selected disabled>-- Select --</option>
-                                        <option>Return Asset</option>
-                                        <option>Rejected</option>
+                                        <option selected>-- Select --</option>
+                                        <option value="Return Asset">Return Asset</option>
+                                        <option value="Rejected">Rejected</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -265,7 +276,7 @@
                     "processing": true,
                     "serverSide": false,
                     "filter": true, 
-                    url: "GetTransaction",
+                    url: "GetDataTransaction",
                     type: "GET",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -278,25 +289,27 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
+                    { "data": "transId" },
+                    { "data": "itemName" },
                     { "data": "status" },
                     //{ "data": "employeeId" },
                     {
                         "data": "requestDate",
-                        render: function (data, type, row) {
-                            let date = moment(row.requestDate).format('DD MMMM YYYY')
+                        render: function (requsetDate) {
+                            let date = moment(requsetDate).format('DD MMMM YYYY')
                             return date
                         }
                     },
                     {
                         "data": "returnDate",
-                        render: function (data, type, row) {
-                            let date = moment(row.returnDate).format('DD MMMM YYYY')
+                        render: function (returnDate) {
+                            let date = moment(returnDate).format('DD MMMM YYYY')
                             return date
                         }
                     },
                     {
-                        "data": "id",
-                        "render": function (data, type, row, meta) {
+                        "data": "transId",
+                        "render": function (transId) {
                             return '<button id="editTable" type="button" class="btn btn-primary" data-toggle="modal"  style="margin-right : 5px;"  data-target="#modalEdit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data"><i class="fa fa-edit"></i></button>';
                                 /*'<button id="deleteTable" class="btn btn-danger" style="margin-left : 5px;"  onclick="Delete(' + row['id'] + ')" data-target="#modalDelete" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Data"><i class="fa fa-trash"></i></button>'*/
                         },
@@ -315,16 +328,19 @@
                 console.log(data);
                 $("#modaltambah").modal("show");
                 $('#id').val(data.id);
-                $('#status').val(data.Status);
+                $('#TransId').val(data.transId);
+                $('#ItemName').val(data.itemName);
+                $('#status').val(data.status);
                 let RD = moment(data.requestDate).format("YYYY-MM-DD");
                 $('#requestdate').val(RD);
                 let RTD = moment(data.returnDate).format("YYYY-MM-DD");
                 $('#returndate').val(RTD);
             });
         })
-        function update() {
-            Update();
-        }
+        //function update() {
+        //    Update();
+        //}
+        
 
         //let Edit = (Id) => {
         //    $.ajax({
@@ -350,15 +366,18 @@
         //}
         let Update = () => {
             var User = new Object()
-            User.id = $("#id").val();
+            User.id = parseInt($("#TransId").val())
+            //User.transId = $("#TransId").val();
+            //User.itemName = $("#ItemName").val();
             User.status = $("#status").val();
-            User.requestDate = $("#requestdate").val();
-            User.returnDate = $("#returndate").val();
+            //User.requestDate = $("#requestdate").val();
+            //User.returnDate = $("#returndate").val();
             console.log()
             $.ajax({
                 url: "Update",
-                type: "PUT",
-                data: User,
+                type: "POST",
+                data: JSON.stringify(User),
+                contentType: "application/json; charset=utf-8",
                 success: (data) => {
                     if (data == 200) {
                         $("#modaltambah").modal('hide');
@@ -375,7 +394,7 @@
                 },
                 error: (data) => {
                     console.log(data);
-                    alert("Failed to Update Data!");
+                    alert("Failed to Update Data EEEEEE!");
                 }
             })
 
@@ -383,6 +402,16 @@
         const cleanErrorVal = () => {
             $('#formData.is-invalid').removeClass('is-invalid')
             $('span.invalid-feedback').remove()
+        }
+
+        const request = () => {
+            $.ajax({
+                url: "GetDataTransaction",
+                type: "GET",
+                success: (data) => {
+                    console.log(data)
+                }
+            })
         }
     </script>
 </body>
